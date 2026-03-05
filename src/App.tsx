@@ -17,6 +17,9 @@ interface Item {
   created_at: string;
 }
 
+// API Base URL - configurable via environment variable
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
 const PRICE_RANGES = [
   { label: '0-100', value: '0-100' },
   { label: '100-200', value: '100-200' },
@@ -66,7 +69,7 @@ export default function App() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: loginPassword }),
@@ -111,7 +114,7 @@ export default function App() {
     }
 
     try {
-      const response = await fetch('/api/auth/update-password', {
+      const response = await fetch(`${API_BASE_URL}/auth/update-password`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -156,7 +159,7 @@ export default function App() {
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -203,7 +206,7 @@ export default function App() {
       params.append('accountId', accountId.toString());
       params.append('_t', Date.now().toString());
       
-      const response = await fetch(`/api/items?${params.toString()}`);
+      const response = await fetch(`${API_BASE_URL}/items?${params.toString()}`);
       const data = await response.json();
       setItems(data);
     } catch (error) {
@@ -225,7 +228,7 @@ export default function App() {
     if (!accountId) return;
     
     try {
-      const url = editingId ? `/api/items/${editingId}` : '/api/items';
+      const url = editingId ? `${API_BASE_URL}/items/${editingId}` : `${API_BASE_URL}/items`;
       const method = editingId ? 'PUT' : 'POST';
       
       const response = await fetch(url, {
@@ -289,7 +292,7 @@ export default function App() {
     if (!accountId) return;
     
     try {
-      const response = await fetch(`/api/items/${id}?accountId=${accountId}`, { method: 'DELETE' });
+      const response = await fetch(`${API_BASE_URL}/items/${id}?accountId=${accountId}`, { method: 'DELETE' });
       if (response.ok) {
         await fetchItems();
         setSelectedIds(prev => prev.filter(i => i !== id));
@@ -307,7 +310,7 @@ export default function App() {
     if (!accountId) return;
     
     try {
-      const response = await fetch('/api/items/batch-delete', {
+      const response = await fetch(`${API_BASE_URL}/items/batch-delete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ids: selectedIds, accountId }),
