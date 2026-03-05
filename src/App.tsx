@@ -345,50 +345,75 @@ export default function App() {
     <div className="min-h-screen bg-stone-50 text-stone-900 font-sans">
       {!isLoggedIn ? (
         // Login Screen
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-stone-100 to-stone-50">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 relative overflow-hidden">
+          {/* Animated Background Grid */}
+          <div className="absolute inset-0 opacity-20" style={{
+            backgroundImage: 'linear-gradient(0deg, transparent 24%, rgba(139, 92, 246, .05) 25%, rgba(139, 92, 246, .05) 26%, transparent 27%, transparent 74%, rgba(139, 92, 246, .05) 75%, rgba(139, 92, 246, .05) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(139, 92, 246, .05) 25%, rgba(139, 92, 246, .05) 26%, transparent 27%, transparent 74%, rgba(139, 92, 246, .05) 75%, rgba(139, 92, 246, .05) 76%, transparent 77%, transparent)',
+            backgroundSize: '50px 50px'
+          }}></div>
+          <div className="absolute top-20 right-20 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{animationDelay: '2s'}}></div>
+
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
-            className="w-full max-w-md"
+            className="w-full max-w-md relative z-10"
           >
-            <div className="bg-white rounded-3xl shadow-2xl p-8 space-y-6">
+            <div className="relative p-8 space-y-6 backdrop-blur-xl bg-black/40 border-2 border-cyan-400/30 rounded-2xl" style={{
+              boxShadow: '0 0 30px rgba(6, 182, 212, 0.3), 0 0 50px rgba(168, 85, 247, 0.2), inset 0 0 20px rgba(6, 182, 212, 0.1)'
+            }}>
+              <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-cyan-400 opacity-50"></div>
+              <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-purple-500 opacity-50"></div>
               <div className="text-center">
-                <div className="text-5xl mb-99">🍶</div>
-                <h1 className="text-3xl font-bold text-stone-900">白酒工具</h1>
-                <p className="text-stone-500 mt-2">白酒库存管理系统</p>
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                  className="text-5xl mb-3 inline-block"
+                >
+                  ⚡
+                </motion.div>
+                <h1 className="text-4xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent" style={{textShadow: '0 0 20px rgba(6, 182, 212, 0.5)'}}>工具</h1>
+                <p className="text-cyan-300/70 mt-2 font-mono text-sm tracking-widest">[ 库存管理系统 ]</p>
               </div>
 
               <form onSubmit={handleLogin} className="space-y-3">
                 <div>
-                  <label className="block text-sm font-bold text-stone-700 mb-2">访问密码</label>
+                  <label className="block text-xs font-bold text-purple-300 mb-2 uppercase tracking-widest">█ 访问密码</label>
                   <input 
                     type="password"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="请输入访问密码"
-                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                    placeholder="●●●●●●●●"
+                    className="w-full px-4 py-3 bg-slate-950/50 border-2 border-cyan-400/50 rounded-lg focus:outline-none focus:border-cyan-300 transition-all font-mono text-cyan-300 placeholder-cyan-700"
+                    style={{boxShadow: '0 0 15px rgba(6, 182, 212, 0.2), inset 0 0 10px rgba(6, 182, 212, 0.05)'}}
                     autoFocus
                   />
                 </div>
 
-                <button 
+                <motion.button 
                   type="submit"
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-emerald-900/10 transition-all active:scale-[0.98]"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-black font-black py-3 rounded-lg uppercase tracking-wider"
+                  style={{boxShadow: '0 0 25px rgba(6, 182, 212, 0.4), 0 0 40px rgba(168, 85, 247, 0.2)'}}
                 >
-                  进入系统
-                </button>
+                  ▶ 进入系统
+                </motion.button>
               </form>
 
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => setIsRegisterModalOpen(true)}
-                className="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold py-3 rounded-xl transition-all active:scale-[0.98]"
+                className="w-full border-2 border-purple-500/50 text-purple-300 hover:text-purple-200 font-bold py-3 rounded-lg uppercase tracking-wider"
+                style={{boxShadow: '0 0 15px rgba(168, 85, 247, 0.2), inset 0 0 10px rgba(168, 85, 247, 0.05)'}}
               >
-                注册管理员账户
-              </button>
+                ◆ 注册管理员账户
+              </motion.button>
 
-              <p className="text-center text-sm text-stone-500">
-                © 2026 白酒工具系统
+              <p className="text-center text-xs text-cyan-400/60 font-mono">
+                © 2026 [ 工具系统 ]
               </p>
             </div>
 
@@ -399,81 +424,93 @@ export default function App() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="fixed inset-0 bg-black/30 flex items-center justify-center z-50"
+                  className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm"
                   onClick={() => setIsRegisterModalOpen(false)}
                 >
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md max-h-[90vh] overflow-y-auto"
+                    className="relative p-8 w-full max-w-md max-h-[90vh] overflow-y-auto backdrop-blur-xl bg-black/50 border-2 border-pink-400/30 rounded-2xl"
+                    style={{boxShadow: '0 0 30px rgba(236, 72, 153, 0.3), 0 0 50px rgba(168, 85, 247, 0.2), inset 0 0 20px rgba(236, 72, 153, 0.1)'}}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <div className="flex items-center justify-between mb-6">
-                      <h2 className="text-2xl font-bold text-stone-900">注册管理员账户</h2>
-                      <button 
+                      <h2 className="text-2xl font-black bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">[ 创建账户 ]</h2>
+                      <motion.button 
+                        whileHover={{ scale: 1.2, rotate: 90 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={() => setIsRegisterModalOpen(false)}
-                        className="text-stone-400 hover:text-stone-600"
+                        className="text-pink-400 hover:text-pink-300 transition-colors"
                       >
                         <X size={24} />
-                      </button>
+                      </motion.button>
                     </div>
 
                     <form onSubmit={handleRegister} className="space-y-4">
                       <div>
-                        <label className="block text-sm font-bold text-stone-700 mb-2">行业名称</label>
+                        <label className="block text-xs font-bold text-cyan-300 mb-2 uppercase tracking-widest">▸ 行业名称</label>
                         <input 
                           type="text"
                           value={registerForm.industryName}
                           onChange={(e) => setRegisterForm({ ...registerForm, industryName: e.target.value })}
                           placeholder="例如：XX酒厂"
-                          className="w-full px-4 py-2 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                          className="w-full px-4 py-2 bg-slate-950/50 border-2 border-pink-400/50 rounded-lg focus:outline-none focus:border-pink-300 transition-all text-pink-300 placeholder-pink-700"
+                          style={{boxShadow: '0 0 10px rgba(236, 72, 153, 0.15), inset 0 0 10px rgba(236, 72, 153, 0.05)'}}
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-bold text-stone-700 mb-2">管理员密码</label>
+                        <label className="block text-xs font-bold text-purple-300 mb-2 uppercase tracking-widest">▸ 管理员密码</label>
                         <input 
                           type="password"
                           value={registerForm.adminPassword}
                           onChange={(e) => setRegisterForm({ ...registerForm, adminPassword: e.target.value })}
-                          placeholder="10位以内的字母数字特殊字符"
+                          placeholder="●●●●●●●●"
                           maxLength={10}
-                          className="w-full px-4 py-2 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                          className="w-full px-4 py-2 bg-slate-950/50 border-2 border-purple-400/50 rounded-lg focus:outline-none focus:border-purple-300 transition-all text-purple-300 placeholder-purple-700"
+                          style={{boxShadow: '0 0 10px rgba(168, 85, 247, 0.15), inset 0 0 10px rgba(168, 85, 247, 0.05)'}}
                           required
                         />
-                        <p className="text-xs text-stone-500 mt-1">用于管理员登录</p>
+                        <p className="text-xs text-purple-400/70 mt-1 font-mono">→ 用于管理员登录 (10字符限制)</p>
                       </div>
 
                       <div>
-                        <label className="block text-sm font-bold text-stone-700 mb-2">子用户密码</label>
+                        <label className="block text-xs font-bold text-cyan-300 mb-2 uppercase tracking-widest">▸ 子用户密码</label>
                         <input 
                           type="password"
                           value={registerForm.subUserPassword}
                           onChange={(e) => setRegisterForm({ ...registerForm, subUserPassword: e.target.value })}
-                          placeholder="10位以内的字母数字特殊字符"
+                          placeholder="●●●●●●●●"
                           maxLength={10}
-                          className="w-full px-4 py-2 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                          className="w-full px-4 py-2 bg-slate-950/50 border-2 border-cyan-400/50 rounded-lg focus:outline-none focus:border-cyan-300 transition-all text-cyan-300 placeholder-cyan-700"
+                          style={{boxShadow: '0 0 10px rgba(6, 182, 212, 0.15), inset 0 0 10px rgba(6, 182, 212, 0.05)'}}
                           required
                         />
-                        <p className="text-xs text-stone-500 mt-1">用于子用户登录</p>
+                        <p className="text-xs text-cyan-400/70 mt-1 font-mono">→ 用于子用户登录 (10字符限制)</p>
                       </div>
 
                       <div className="grid grid-cols-2 gap-3 pt-2">
-                        <button 
+                        <motion.button 
                           type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                           onClick={() => setIsRegisterModalOpen(false)}
-                          className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-xl transition-all"
+                          className="px-4 py-2 border-2 border-red-500/50 text-red-300 hover:text-red-200 font-bold rounded-lg uppercase tracking-wider"
+                          style={{boxShadow: '0 0 10px rgba(239, 68, 68, 0.15)'}}
                         >
-                          取消
-                        </button>
-                        <button 
+                          ✕ 取消
+                        </motion.button>
+                        <motion.button 
                           type="submit"
-                          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-900/10 transition-all"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-black font-black rounded-lg uppercase tracking-wider"
+                          style={{boxShadow: '0 0 20px rgba(6, 182, 212, 0.3), 0 0 30px rgba(168, 85, 247, 0.2)'}}
                         >
-                          注册
-                        </button>
+                          ✓ 确认
+                        </motion.button>
                       </div>
                     </form>
                   </motion.div>
