@@ -1,0 +1,5 @@
+{
+  "name": "酒详情共享工具",
+  "description": "一个为团队设计的酒详情共享与查询工具，支持图片上传、价格区间筛选和名称模糊搜索。",
+  "requestFramePermissions": []
+}
