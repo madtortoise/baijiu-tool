@@ -626,7 +626,7 @@ export default function App() {
                 {selectedRanges.length > 0 && (
                   <span className="bg-emerald-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                     {selectedRanges.length}
-                  </span>
+                  </span> 
                 )}
               </button>
 
