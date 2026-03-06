@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import { getDatabase } from "../../lib/db";
+import { updateAccountPasswords } from "../../lib/memory-db";
 
 const handler: Handler = async (event, context) => {
   if (event.httpMethod !== "PUT") {
@@ -35,30 +35,25 @@ const handler: Handler = async (event, context) => {
       };
     }
 
-    const updates: string[] = [];
-    const values: any[] = [];
-
-    if (adminPassword) {
-      updates.push("admin_password = ?");
-      values.push(adminPassword);
-    }
-
-    if (subUserPassword) {
-      updates.push("sub_user_password = ?");
-      values.push(subUserPassword);
-    }
-
-    if (updates.length === 0) {
+    if (!adminPassword && !subUserPassword) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: "至少需要修改一个密码" }),
       };
     }
 
-    values.push(accountId);
-    const db = getDatabase();
-    const query = `UPDATE accounts SET ${updates.join(", ")} WHERE id = ?`;
-    db.prepare(query).run(...values);
+    const success = updateAccountPasswords(
+      accountId,
+      adminPassword,
+      subUserPassword
+    );
+
+    if (!success) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: "账户不存在" }),
+      };
+    }
 
     return {
       statusCode: 200,

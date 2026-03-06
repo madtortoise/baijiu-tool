@@ -1,5 +1,8 @@
 import { Handler } from "@netlify/functions";
-import { getDatabase } from "../../lib/db";
+import {
+  findAccountByAdminPassword,
+  findAccountBySubUserPassword,
+} from "../../lib/memory-db";
 
 const handler: Handler = async (event, context) => {
   if (event.httpMethod !== "POST") {
@@ -19,16 +22,8 @@ const handler: Handler = async (event, context) => {
       };
     }
 
-    const db = getDatabase();
-
     // 查找匹配管理员密码的账户
-    let account = db
-      .prepare(`
-        SELECT id, industry_name, admin_password FROM accounts 
-        WHERE admin_password = ?
-      `)
-      .get(password);
-
+    let account = findAccountByAdminPassword(password);
     if (account) {
       return {
         statusCode: 200,
@@ -41,13 +36,7 @@ const handler: Handler = async (event, context) => {
     }
 
     // 查找匹配子用户密码的账户
-    account = db
-      .prepare(`
-        SELECT id, industry_name FROM accounts 
-        WHERE sub_user_password = ?
-      `)
-      .get(password);
-
+    account = findAccountBySubUserPassword(password);
     if (account) {
       return {
         statusCode: 200,

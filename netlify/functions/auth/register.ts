@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import { getDatabase } from "../../lib/db";
+import { createAccount } from "../../lib/memory-db";
 
 const handler: Handler = async (event, context) => {
   if (event.httpMethod !== "POST") {
@@ -28,19 +28,13 @@ const handler: Handler = async (event, context) => {
       };
     }
 
-    const db = getDatabase();
-
-    const stmt = db.prepare(`
-      INSERT INTO accounts (industry_name, admin_password, sub_user_password)
-      VALUES (?, ?, ?)
-    `);
-    const result = stmt.run(industryName, adminPassword, subUserPassword);
+    const account = createAccount(industryName, adminPassword, subUserPassword);
 
     return {
       statusCode: 200,
       body: JSON.stringify({
-        accountId: result.lastInsertRowid,
-        industryName,
+        accountId: account.id,
+        industryName: account.industry_name,
       }),
     };
   } catch (error) {
